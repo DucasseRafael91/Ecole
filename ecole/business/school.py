@@ -68,6 +68,12 @@ class School:
         return course_dao.update(course)
 
     @staticmethod
+    def update_address(address: Address) -> bool:
+        """Met à jour un cours existant dans la base de données."""
+        address_dao = AddressDao()
+        return address_dao.update(address)
+
+    @staticmethod
     def delete_course_by_id(id_course: int):
         course_dao: CourseDao = CourseDao()
         return course_dao.delete(id_course)

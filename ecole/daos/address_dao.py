@@ -38,24 +38,24 @@ class AddressDao(Dao[Address]):
 
         return address
 
-    def update(self, course: Address) -> bool:
+    def update(self, address: Address) -> bool:
         """Met à jour en BD l'entité Course correspondant à course
 
-        :param course: cours déjà mis à jour en mémoire
+        :param address: cours déjà mis à jour en mémoire
         :return: True si la mise à jour a pu être réalisée
         """
         try:
             with Dao.connection.cursor() as cursor:
                 sql = """
-                    UPDATE course
-                    SET name=%s, start_date=%s, end_date=%s
-                    WHERE id_course=%s
+                    UPDATE address
+                    SET street=%s, city=%s, postal_code=%s
+                    WHERE id_address=%s
                 """
                 cursor.execute(sql, (
-                    course.name,
-                    course.start_date,
-                    course.end_date,
-                    course.id
+                    address.street,
+                    address.city,
+                    address.postal_code,
+                    address.id
                 ))
 
             Dao.connection.commit()

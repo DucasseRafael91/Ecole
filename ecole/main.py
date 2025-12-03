@@ -36,6 +36,10 @@ Bienvenue dans notre école
     # course_updated.name = "Mathématiques avancées"
     # school.update_course(course_updated)
 
+    # address_updated = school.get_address_by_id(1)
+    # address_updated.city = "Bayonne"
+    # school.update_address(address_updated)
+
 
 if __name__ == '__main__':
     main()
