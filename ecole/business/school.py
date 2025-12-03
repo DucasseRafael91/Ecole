@@ -48,10 +48,23 @@ class School:
                 print(f"- {student}")
             print()
 
+
+
     @staticmethod
     def get_course_by_id(id_course: int):
         course_dao: CourseDao = CourseDao()
         return course_dao.read(id_course)
+
+    @staticmethod
+    def update_course(course: Course) -> bool:
+        """Met à jour un cours existant dans la base de données."""
+        course_dao = CourseDao()
+        return course_dao.update(course)
+
+    @staticmethod
+    def delete_course_by_id(id_course: int):
+        course_dao: CourseDao = CourseDao()
+        return course_dao.delete(id_course)
 
     def init_static(self) -> None:
         """Initialisation d'un jeu de test pour l'école."""

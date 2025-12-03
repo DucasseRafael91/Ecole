@@ -9,7 +9,6 @@ from daos.dao import Dao
 from dataclasses import dataclass
 from typing import Optional
 
-
 @dataclass
 class CourseDao(Dao[Course]):
     def create(self, course: Course) -> int:
@@ -39,19 +38,58 @@ class CourseDao(Dao[Course]):
         return course
 
     def update(self, course: Course) -> bool:
-        """Met à jour en BD l'entité Course correspondant à course, pour y correspondre
+        """Met à jour en BD l'entité Course correspondant à course
 
         :param course: cours déjà mis à jour en mémoire
         :return: True si la mise à jour a pu être réalisée
         """
-        ...
-        return True
+        try:
+            with Dao.connection.cursor() as cursor:
+                sql = """
+                    UPDATE course
+                    SET name=%s, start_date=%s, end_date=%s
+                    WHERE id_course=%s
+                """
+                cursor.execute(sql, (
+                    course.name,
+                    course.start_date,
+                    course.end_date,
+                    course.id
+                ))
 
-    def delete(self, course: Course) -> bool:
-        """Supprime en BD l'entité Course correspondant à course
+            Dao.connection.commit()
 
-        :param course: cours dont l'entité Course correspondante est à supprimer
+            # cursor.rowcount : nombre de lignes affectées
+            return cursor.rowcount > 0
+
+        except Exception as e:
+            print("Erreur lors de la mise à jour :", e)
+            Dao.connection.rollback()
+            return False
+
+    def delete(self, id_course: int) -> bool:
+        """Supprime en BD l'entité Course correspondant à id_course
+
+        :param id_course: id du cours à supprimer
         :return: True si la suppression a pu être réalisée
         """
-        ...
-        return True
+        try:
+            with Dao.connection.cursor() as cursor:
+
+                sql_delete_takes = "DELETE FROM takes WHERE id_course=%s"
+                cursor.execute(sql_delete_takes, (id_course,))
+
+                sql = "DELETE FROM course WHERE id_course=%s"
+                cursor.execute(sql, (id_course,))
+
+            # Validation de la suppression
+            Dao.connection.commit()
+
+            # Si aucune ligne supprimée
+            return cursor.rowcount > 0
+
+        except Exception as e:
+            print("Erreur lors de la suppression :", e)
+            Dao.connection.rollback()
+            return False
+

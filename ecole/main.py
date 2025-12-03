@@ -24,8 +24,14 @@ Bienvenue dans notre école
     school.display_courses_list()
 
     print(school.get_course_by_id(1))
-    print(school.get_course_by_id(2))
-    print(school.get_course_by_id(9))
+    print(school.get_course_by_id(3))
+    print(school.get_course_by_id(8))
+
+    # school.delete_course_by_id(2)
+
+    # course_updated = school.get_course_by_id(4)
+    # course_updated.name = "Mathématiques avancées"
+    # school.update_course(course_updated)
 
 
 if __name__ == '__main__':
