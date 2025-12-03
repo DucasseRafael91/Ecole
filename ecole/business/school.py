@@ -78,6 +78,11 @@ class School:
         course_dao: CourseDao = CourseDao()
         return course_dao.delete(id_course)
 
+    @staticmethod
+    def delete_address_by_id(id_address: int):
+        address_dao: AddressDao = AddressDao()
+        return address_dao.delete(id_address)
+
     def init_static(self) -> None:
         """Initialisation d'un jeu de test pour l'école."""
         

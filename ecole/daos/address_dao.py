@@ -68,7 +68,7 @@ class AddressDao(Dao[Address]):
             Dao.connection.rollback()
             return False
 
-    def delete(self, id_course: int) -> bool:
+    def delete(self, id_address: int) -> bool:
         """Supprime en BD l'entité Course correspondant à id_course
 
         :param id_course: id du cours à supprimer
@@ -77,11 +77,8 @@ class AddressDao(Dao[Address]):
         try:
             with Dao.connection.cursor() as cursor:
 
-                sql_delete_takes = "DELETE FROM takes WHERE id_course=%s"
-                cursor.execute(sql_delete_takes, (id_course,))
-
-                sql = "DELETE FROM course WHERE id_course=%s"
-                cursor.execute(sql, (id_course,))
+                sql = "DELETE FROM address WHERE id_address=%s"
+                cursor.execute(sql, (id_address,))
 
             # Validation de la suppression
             Dao.connection.commit()
