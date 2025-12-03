@@ -26,6 +26,9 @@ Bienvenue dans notre école
     print(school.get_course_by_id(1))
     print(school.get_course_by_id(3))
     print(school.get_course_by_id(8))
+    print(school.get_address_by_id(1))
+    print(school.get_address_by_id(2))
+    print(school.get_address_by_id(3))
 
     # school.delete_course_by_id(2)
 
