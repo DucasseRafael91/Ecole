@@ -31,11 +31,11 @@ Bienvenue dans notre école
     address = Address("10 rue de la Paix", "Paris", 75002)
     School.create_address(address)
 
-    # victor = Teacher('Victor', 'Hugo', 23, date(2023, 10, 4), 2)
-    # School.create_teacher(victor)
+    victor = Teacher('Victor', 'Mont', 23, date(2023, 10, 4), 2)
+    School.create_teacher(victor)
 
-    pierre = Student('Pierre', 'Hugo', 23, 4)
-    School.create_student(pierre)
+    # pierre = Student('Pierre', 'Hugo', 23, 4)
+    # School.create_student(pierre)
 
     # francais_avancées: Course = Course("Français avancé", date(2024, 1, 29),date(2024, 2, 16), 2)
     # School.create_course(francais_avancées)

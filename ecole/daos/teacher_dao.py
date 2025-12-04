@@ -14,28 +14,43 @@ from typing import Optional
 class TeacherDao(Dao[Teacher]):
 
     def create(self, teacher: Teacher) -> int:
-        """Crée en BD l'entité Address correspondant à address
+        """Crée en BD l'entité Person puis Student correspondant à student
 
-        :param address: à créer sous forme d'entité Address en BD
-        :return: l'id de l'entité insérée en BD (0 si la création a échoué)
+        :param student: instance de Student à créer
+        :return: l'id du Student inséré en BD (0 si échec)
         """
         try:
             with Dao.connection.cursor() as cursor:
-                sql = """
-                    INSERT INTO teacher (hiring_date, id_person)
+
+                # 1️⃣ Création de la Person
+                sql_person = """
+                    INSERT INTO person (first_name, last_name, age)
+                    VALUES (%s, %s, %s)
+                """
+                cursor.execute(sql_person, (teacher.first_name, teacher.last_name, teacher.age))
+
+                # Récupération de l'id de la Person créée
+                person_id = cursor.lastrowid
+                teacher.person_id = person_id  # mettre à jour l'objet Student
+
+                # 2️⃣ Création du Student lié à cette Person
+                sql_student = """
+                    INSERT INTO teacher (hiring_date,id_person)
                     VALUES (%s, %s)
                 """
-                cursor.execute(sql, (teacher.hiring_date, teacher.person_id))
+                cursor.execute(sql_student, (teacher.hiring_date, person_id))
 
-                # Récupération de l'id généré
-                teacher_id = cursor.lastrowid
+                # Récupération de l'id du Student
+                student_id = cursor.lastrowid
 
-            # Validation de l'insertion
+            # Validation de la transaction
             Dao.connection.commit()
-            return teacher_id
+            return student_id
 
         except Exception as e:
-            print("Erreur lors de la création :", e)
+            import traceback
+            print("Erreur lors de la création :", type(e).__name__, e)
+            traceback.print_exc()
             Dao.connection.rollback()
             return 0
 
