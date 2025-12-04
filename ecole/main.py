@@ -4,8 +4,10 @@
 """
 Application de gestion d'une école
 """
+from datetime import date
 
 from business.school import School
+from models.teacher import Teacher
 
 
 def main() -> None:
@@ -25,6 +27,9 @@ Bienvenue dans notre école
 
     # address = Address("10 rue de la Paix", "Paris", 75002)
     # School.create_address(address)
+
+    victor = Teacher('Victor', 'Hugo', 23, date(2023, 10, 4), 2)
+    School.create_teacher(victor)
 
     # LECTURE EXEMPLES (TERMINER)
     print(school.get_course_by_id(1))

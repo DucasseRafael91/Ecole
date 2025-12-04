@@ -19,7 +19,25 @@ class TeacherDao(Dao[Teacher]):
         :param address: à créer sous forme d'entité Address en BD
         :return: l'id de l'entité insérée en BD (0 si la création a échoué)
         """
-        return 0
+        try:
+            with Dao.connection.cursor() as cursor:
+                sql = """
+                    INSERT INTO teacher (hiring_date, id_person)
+                    VALUES (%s, %s)
+                """
+                cursor.execute(sql, (teacher.hiring_date, teacher.person_id))
+
+                # Récupération de l'id généré
+                teacher_id = cursor.lastrowid
+
+            # Validation de l'insertion
+            Dao.connection.commit()
+            return teacher_id
+
+        except Exception as e:
+            print("Erreur lors de la création :", e)
+            Dao.connection.rollback()
+            return 0
 
     def read(self, id_teacher: int) -> Optional[Teacher]:
         """Renvoit le cours correspondant à l'entité dont l'id est id_course
