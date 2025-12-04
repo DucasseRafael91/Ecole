@@ -34,11 +34,11 @@ Bienvenue dans notre école
     # victor = Teacher('Victor', 'Hugo', 23, date(2023, 10, 4), 2)
     # School.create_teacher(victor)
 
-    # pierre = Student('Victor', 'Hugo', 23, 4)
-    # School.create_student(pierre)
+    pierre = Student('Pierre', 'Hugo', 23, 4)
+    School.create_student(pierre)
 
-    francais_avancées: Course = Course("Français avancé", date(2024, 1, 29),date(2024, 2, 16), 2)
-    School.create_course(francais_avancées)
+    # francais_avancées: Course = Course("Français avancé", date(2024, 1, 29),date(2024, 2, 16), 2)
+    # School.create_course(francais_avancées)
 
     # LECTURE EXEMPLES (TERMINER)
     print(school.get_course_by_id(1))

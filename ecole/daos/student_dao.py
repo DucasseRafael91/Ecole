@@ -14,27 +14,43 @@ from typing import Optional
 class StudentDao(Dao[Student]):
 
     def create(self, student: Student) -> int:
-        """Crée en BD l'entité Address correspondant à address
+        """Crée en BD l'entité Person puis Student correspondant à student
 
-        :param address: à créer sous forme d'entité Address en BD
-        :return: l'id de l'entité insérée en BD (0 si la création a échoué)
+        :param student: instance de Student à créer
+        :return: l'id du Student inséré en BD (0 si échec)
         """
         try:
             with Dao.connection.cursor() as cursor:
-                sql = """
+
+                # 1️⃣ Création de la Person
+                sql_person = """
+                    INSERT INTO person (first_name, last_name, age)
+                    VALUES (%s, %s, %s)
+                """
+                cursor.execute(sql_person, (student.first_name, student.last_name, student.age))
+
+                # Récupération de l'id de la Person créée
+                person_id = cursor.lastrowid
+                student.person_id = person_id  # mettre à jour l'objet Student
+
+                # 2️⃣ Création du Student lié à cette Person
+                sql_student = """
                     INSERT INTO student (id_person)
                     VALUES (%s)
                 """
-                cursor.execute(sql, (student.person_id,))
+                cursor.execute(sql_student, (person_id,))
 
-                # Récupération de l'id généré
+                # Récupération de l'id du Student
                 student_id = cursor.lastrowid
 
-            # Validation de l'insertion
+            # Validation de la transaction
             Dao.connection.commit()
             return student_id
+
         except Exception as e:
-            print("Erreur lors de la création :", e)
+            import traceback
+            print("Erreur lors de la création :", type(e).__name__, e)
+            traceback.print_exc()
             Dao.connection.rollback()
             return 0
 
