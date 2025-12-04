@@ -28,22 +28,27 @@ Bienvenue dans notre école
     # affichage de la liste des cours, leur enseignant et leurs élèves
     school.display_courses_list()
 
-    address = Address("10 rue de la Paix", "Paris", 75002)
-    School.create_address(address)
+    # address = Address("10 rue de la Paix", "Paris", 75002)
+    # School.create_address(address)
 
-    victor = Teacher('Victor', 'Mont', 23, date(2023, 10, 4), 2)
-    School.create_teacher(victor)
+    # victor = Teacher('Victor', 'Mont', 23, date(2023, 10, 4), 2)
+    # victor.address = Address("22 rue de la Paix", "Paris", 75002)
+    # School.create_teacher(victor)
 
-    # pierre = Student('Pierre', 'Hugo', 23, 4)
-    # School.create_student(pierre)
+    pierre = Student('Pierre', 'Hugo', 23, 2,)
+    School.create_student(pierre)
 
     # francais_avancées: Course = Course("Français avancé", date(2024, 1, 29),date(2024, 2, 16), 2)
     # School.create_course(francais_avancées)
 
     # LECTURE EXEMPLES (TERMINER)
     print(school.get_course_by_id(1))
+
     print(school.get_address_by_id(1))
+    print(school.get_all_addresses())
+
     print(school.get_student_by_id(1))
+
     print(school.get_teacher_by_id(1))
 
     # SUPPRESSION EXEMPLES (TERMINER)

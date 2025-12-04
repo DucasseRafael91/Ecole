@@ -111,6 +111,11 @@ class School:
         return address_dao.read(id_address)
 
     @staticmethod
+    def get_all_addresses():
+        address_dao: AddressDao = AddressDao()
+        return address_dao.read_all()
+
+    @staticmethod
     def update_course(course: Course) -> bool:
         """Met à jour un cours existant dans la base de données."""
         course_dao = CourseDao()

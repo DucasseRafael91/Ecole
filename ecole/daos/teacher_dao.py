@@ -22,12 +22,26 @@ class TeacherDao(Dao[Teacher]):
         try:
             with Dao.connection.cursor() as cursor:
 
-                # 1️⃣ Création de la Person
+                if(teacher.address):
+
+                    # Création de la Address
+                    sql_address = """
+                            INSERT INTO address (street, city, postal_code)
+                            VALUES (%s, %s, %s)
+                            """
+                    cursor.execute(sql_address, (teacher.address.street, teacher.address.city, teacher.address.postal_code))
+
+                    # Récupération de l'id de la Person créée
+                    address_id = cursor.lastrowid
+                else:
+                    address_id = None
+
+                # Création de la Person
                 sql_person = """
-                    INSERT INTO person (first_name, last_name, age)
-                    VALUES (%s, %s, %s)
+                    INSERT INTO person (first_name, last_name, age, id_address)
+                    VALUES (%s, %s, %s, %s)
                 """
-                cursor.execute(sql_person, (teacher.first_name, teacher.last_name, teacher.age))
+                cursor.execute(sql_person, (teacher.first_name, teacher.last_name, teacher.age, address_id))
 
                 # Récupération de l'id de la Person créée
                 person_id = cursor.lastrowid

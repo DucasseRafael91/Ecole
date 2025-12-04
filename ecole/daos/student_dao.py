@@ -7,7 +7,7 @@ Classe Dao[Student]
 from models.student import Student
 from daos.dao import Dao
 from dataclasses import dataclass
-from typing import Optional
+from typing import Optional, List
 
 
 @dataclass
@@ -22,18 +22,32 @@ class StudentDao(Dao[Student]):
         try:
             with Dao.connection.cursor() as cursor:
 
-                # 1️⃣ Création de la Person
+                if(student.address):
+                    # Création de la Address
+                    sql_address = """
+                                                           INSERT INTO address (street, city, postal_code)
+                                                           VALUES (%s, %s, %s)
+                                                           """
+                    cursor.execute(sql_address,
+                                   (student.address.street, student.address.city, student.address.postal_code))
+
+                    # Récupération de l'id de la Person créée
+                    address_id = cursor.lastrowid
+                else:
+                    address_id = None
+
+                # Création de la Person
                 sql_person = """
-                    INSERT INTO person (first_name, last_name, age)
-                    VALUES (%s, %s, %s)
+                    INSERT INTO person (first_name, last_name, age, id_address)
+                    VALUES (%s, %s, %s, %s)
                 """
-                cursor.execute(sql_person, (student.first_name, student.last_name, student.age))
+                cursor.execute(sql_person, (student.first_name, student.last_name, student.age, address_id))
 
                 # Récupération de l'id de la Person créée
                 person_id = cursor.lastrowid
                 student.person_id = person_id  # mettre à jour l'objet Student
 
-                # 2️⃣ Création du Student lié à cette Person
+                # Création du Student lié à cette Person
                 sql_student = """
                     INSERT INTO student (id_person)
                     VALUES (%s)
@@ -75,6 +89,22 @@ class StudentDao(Dao[Student]):
             student = None
 
         return student
+
+    def read_all(self) -> List[Student]:
+        """Renvoie toutes les adresses présentes dans la table 'address'."""
+        students: List[Student] = []
+        with Dao.connection.cursor() as cursor:
+            sql = "SELECT * FROM student"
+            cursor.execute(sql)
+            records = cursor.fetchall()
+
+        for record in records:
+            student = Student(record['first_name'],record['last_name'],record['age']
+            )
+            address.id = record['id_address']
+            addresses.append(address)
+
+        return addresses
 
     def update(self, student: Student) -> bool:
         """Met à jour en BD l'entité Course correspondant à course
