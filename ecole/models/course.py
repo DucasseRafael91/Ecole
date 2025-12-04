@@ -33,7 +33,7 @@ class Course:
     name: str
     start_date: date
     end_date: date
-    teacher: Optional[Teacher] = field(default=None, init=False)
+    teacher: Optional[int] = field(default=None)
     students_taking_it: list[Student] = field(default_factory=list, init=False)
 
     def set_teacher(self, teacher: Teacher) -> None:

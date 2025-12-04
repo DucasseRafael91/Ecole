@@ -72,6 +72,25 @@ class School:
         return teacher_dao.create(teacher)
 
     @staticmethod
+    def create_student(student: Student) -> int:
+        """Crée une adresse en base de données.
+
+        :param address: instance d'Address à créer
+        :return: id de l'adresse créée (0 si échec)
+        """
+        student_dao = StudentDao()
+        return student_dao.create(student)
+
+    def create_course(course: Course) -> int:
+        """Crée une adresse en base de données.
+
+        :param address: instance d'Address à créer
+        :return: id de l'adresse créée (0 si échec)
+        """
+        course_dao = CourseDao()
+        return course_dao.create(course)
+
+    @staticmethod
     def get_course_by_id(id_course: int):
         course_dao: CourseDao = CourseDao()
         return course_dao.read(id_course)

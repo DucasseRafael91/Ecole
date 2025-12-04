@@ -5,7 +5,7 @@ Classe Student, fille de la classe Person
 """
 
 from dataclasses import dataclass, field
-from typing import ClassVar
+from typing import ClassVar, Optional
 from .person import Person
 from .course import Course
 
@@ -20,6 +20,7 @@ class Student(Person):
     students_nb: ClassVar[int] = 0  # nb d'étudiants créés
     student_nbr: int = field(init=False)
     courses_taken: list[Course] = field(default_factory=list, init=False)
+    person_id: Optional[int] = field(default=None)
 
     def __post_init__(self):
         """Détermination du n° de l'élève créé."""

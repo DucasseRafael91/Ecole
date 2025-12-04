@@ -19,7 +19,24 @@ class StudentDao(Dao[Student]):
         :param address: à créer sous forme d'entité Address en BD
         :return: l'id de l'entité insérée en BD (0 si la création a échoué)
         """
-        return 0
+        try:
+            with Dao.connection.cursor() as cursor:
+                sql = """
+                    INSERT INTO student (id_person)
+                    VALUES (%s)
+                """
+                cursor.execute(sql, (student.person_id,))
+
+                # Récupération de l'id généré
+                student_id = cursor.lastrowid
+
+            # Validation de l'insertion
+            Dao.connection.commit()
+            return student_id
+        except Exception as e:
+            print("Erreur lors de la création :", e)
+            Dao.connection.rollback()
+            return 0
 
     def read(self, student_nbr: int) -> Optional[Student]:
         """Renvoit le cours correspondant à l'entité dont l'id est id_course

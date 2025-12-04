@@ -7,6 +7,9 @@ Application de gestion d'une école
 from datetime import date
 
 from business.school import School
+from models.address import Address
+from models.course import Course
+from models.student import Student
 from models.teacher import Teacher
 
 
@@ -25,11 +28,17 @@ Bienvenue dans notre école
     # affichage de la liste des cours, leur enseignant et leurs élèves
     school.display_courses_list()
 
-    # address = Address("10 rue de la Paix", "Paris", 75002)
-    # School.create_address(address)
+    address = Address("10 rue de la Paix", "Paris", 75002)
+    School.create_address(address)
 
-    victor = Teacher('Victor', 'Hugo', 23, date(2023, 10, 4), 2)
-    School.create_teacher(victor)
+    # victor = Teacher('Victor', 'Hugo', 23, date(2023, 10, 4), 2)
+    # School.create_teacher(victor)
+
+    # pierre = Student('Victor', 'Hugo', 23, 4)
+    # School.create_student(pierre)
+
+    francais_avancées: Course = Course("Français avancé", date(2024, 1, 29),date(2024, 2, 16), 2)
+    School.create_course(francais_avancées)
 
     # LECTURE EXEMPLES (TERMINER)
     print(school.get_course_by_id(1))
