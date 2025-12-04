@@ -26,24 +26,19 @@ Bienvenue dans notre école
     # address = Address("10 rue de la Paix", "Paris", 75002)
     # School.create_address(address)
 
+    # LECTURE EXEMPLES (TERMINER)
     print(school.get_course_by_id(1))
-    print(school.get_course_by_id(3))
-    print(school.get_course_by_id(8))
     print(school.get_address_by_id(1))
-    print(school.get_address_by_id(2))
-    print(school.get_address_by_id(3))
     print(school.get_student_by_id(1))
-    print(school.get_student_by_id(2))
-    print(school.get_student_by_id(3))
     print(school.get_teacher_by_id(1))
-    print(school.get_teacher_by_id(2))
-    print(school.get_teacher_by_id(3))
 
-
+    # SUPPRESSION EXEMPLES (TERMINER)
     # school.delete_course_by_id(2)
     # school.delete_address_by_id(4)
     # school.delete_student_by_id(4)
+    # school.delete_teacher_by_id(7)
 
+    # MISE A JOUR EXEMPLES (TERMINER)
     # course_updated = school.get_course_by_id(4)
     # course_updated.name = "Mathématiques avancées"
     # school.update_course(course_updated)

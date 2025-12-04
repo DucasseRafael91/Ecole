@@ -121,6 +121,11 @@ class School:
         student_dao: StudentDao = StudentDao()
         return student_dao.delete(id_student)
 
+    @staticmethod
+    def delete_teacher_by_id(id_teacher: int):
+        teacher_dao: TeacherDao = TeacherDao()
+        return teacher_dao.delete(id_teacher)
+
     def init_static(self) -> None:
         """Initialisation d'un jeu de test pour l'école."""
         
