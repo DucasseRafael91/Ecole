@@ -21,6 +21,7 @@ class Teacher(Person):
     id: Optional[int] = field(default=None, init=False)
     hiring_date: date
     courses_teached: list[Course] = field(default_factory=list, init=False)
+    person_id: Optional[int] = field(default=None, init=False)
 
     def add_course(self, course: Course) -> None:
         """Ajout du cours course à la liste des cours qu'il enseigne."""

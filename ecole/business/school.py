@@ -9,6 +9,8 @@ from datetime import date
 
 from daos.course_dao import CourseDao
 from daos.address_dao import AddressDao
+from daos.student_dao import StudentDao
+from daos.teacher_dao import TeacherDao
 from models.address import Address
 from models.course import Course
 from models.teacher import Teacher
@@ -49,12 +51,30 @@ class School:
                 print(f"- {student}")
             print()
 
+    @staticmethod
+    def create_address(address: Address) -> int:
+        """Crée une adresse en base de données.
 
+        :param address: instance d'Address à créer
+        :return: id de l'adresse créée (0 si échec)
+        """
+        address_dao = AddressDao()
+        return address_dao.create(address)
 
     @staticmethod
     def get_course_by_id(id_course: int):
         course_dao: CourseDao = CourseDao()
         return course_dao.read(id_course)
+
+    @staticmethod
+    def get_student_by_id(student_nbr: int):
+        student_dao: StudentDao = StudentDao()
+        return student_dao.read(student_nbr)
+
+    @staticmethod
+    def get_teacher_by_id(id_teacher: int):
+        teacher_dao: TeacherDao = TeacherDao()
+        return teacher_dao.read(id_teacher)
 
     @staticmethod
     def get_address_by_id(id_address: int):
@@ -73,6 +93,19 @@ class School:
         address_dao = AddressDao()
         return address_dao.update(address)
 
+
+    @staticmethod
+    def update_student(student: Student) -> bool:
+        """Met à jour un cours existant dans la base de données."""
+        student_dao = StudentDao()
+        return student_dao.update(student)
+
+    @staticmethod
+    def update_teacher(teacher: Teacher) -> bool:
+        """Met à jour un cours existant dans la base de données."""
+        teacher_dao = TeacherDao()
+        return teacher_dao.update(teacher)
+
     @staticmethod
     def delete_course_by_id(id_course: int):
         course_dao: CourseDao = CourseDao()
@@ -82,6 +115,11 @@ class School:
     def delete_address_by_id(id_address: int):
         address_dao: AddressDao = AddressDao()
         return address_dao.delete(id_address)
+
+    @staticmethod
+    def delete_student_by_id(id_student: int):
+        student_dao: StudentDao = StudentDao()
+        return student_dao.delete(id_student)
 
     def init_static(self) -> None:
         """Initialisation d'un jeu de test pour l'école."""

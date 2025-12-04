@@ -13,13 +13,30 @@ from typing import Optional
 @dataclass
 class AddressDao(Dao[Address]):
     def create(self, address: Address) -> int:
-        """Crée en BD l'entité Course correspondant au cours course
+        """Crée en BD l'entité Address correspondant à address
 
-        :param adress: à créer sous forme d'entité Course en BD
+        :param address: à créer sous forme d'entité Address en BD
         :return: l'id de l'entité insérée en BD (0 si la création a échoué)
         """
-        ...
-        return 0
+        try:
+            with Dao.connection.cursor() as cursor:
+                sql = """
+                    INSERT INTO address (street, city, postal_code)
+                    VALUES (%s, %s, %s)
+                """
+                cursor.execute(sql, (address.street, address.city, address.postal_code))
+
+                # Récupération de l'id généré
+                address_id = cursor.lastrowid
+
+            # Validation de l'insertion
+            Dao.connection.commit()
+            return address_id
+
+        except Exception as e:
+            print("Erreur lors de la création :", e)
+            Dao.connection.rollback()
+            return 0
 
     def read(self, id_address: int) -> Optional[Address]:
         """Renvoit le cours correspondant à l'entité dont l'id est id_course
